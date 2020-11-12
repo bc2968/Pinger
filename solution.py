@@ -49,14 +49,14 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
         # Fill in start
         # Fetch the ICMP header from the IP packet
-        Type, Code, Checksum, packetID, Sequence = struct.unpack('bbHHh', recPacket[20:28])
+        icmpheader=recPacket[20:28]
+        Type, Code, Checksum, packetID, Sequence = struct.unpack('bbHHh', icmpheader)
         if packetID == ID:
             BytesInDouble = struct.calcsize('d')
             timeSent = struct.unpack('d', recPacket[28:28 + BytesInDouble])[0]
             return timeReceived - timeSent
         else:
             return 'no Matching ID'
-
         # Fill in end
         timeLeft = timeLeft - howLongInSelect
         if timeLeft <= 0:
